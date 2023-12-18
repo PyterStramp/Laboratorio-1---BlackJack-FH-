@@ -4,10 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="assets/css/styles.css">
     <title>Blackjack FH</title>
 </head>
 <body>
+
+    <header class="titulo">
+        BlackJack
+    </header>
+
+    <div class="row mt-2">
+        <div class="col text-center">
+
+            <button type="button" class="btn btn-light">Nuevo Juego</button>
+            <button type="button" class="btn btn-primary">Pedir</button>
+            <button type="button" class="btn btn-danger">Foldear</button>
+
+        </div>
+    </div>
+
+    <!--Jugador 1-->
+
+    <div class="row container">
+        <div class="col">
+
+            <h1>Jugador 1 - <small> 0 </small></h1>
+            <div id="jugador-cartas">
+
+                <img class="carta" src="assets/cartas/2D.png" alt="carta">
+                <img class="carta" src="assets/cartas/2D.png" alt="carta">
+                <img class="carta" src="assets/cartas/2D.png" alt="carta">
+                <img class="carta" src="assets/cartas/2D.png" alt="carta">
+
+            </div>
+
+        </div>
+    </div>
+
+    <!--Computadora-->
+
+    <div class="row container mt-2">
+        <div class="col">
+
+            <h1>Computadora - <small> 0 </small></h1>
+            <div id="computadora-cartas">
+
+                <img class="carta" src="assets/cartas/3D.png" alt="carta">
+
+            </div>
+
+        </div>
+    </div>
 
     <script src="assets/js/juego.js"></script>
 </body>
