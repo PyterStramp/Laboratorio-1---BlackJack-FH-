@@ -48,7 +48,7 @@ const crearDeck = () => {
     // si la aleatorizada sirve jaja, entonces quito el shuffle
     // a pesar de servir, es mejor revolver y aleatorizar después
     deck = _.shuffle(deck);//para aleatorizar el arreglo
-    console.log(deck);
+    //console.log(deck);
     return deck;
 }
 
@@ -114,7 +114,22 @@ const turnoComputadora = ( puntosMinimos ) => {
             break;
         }
 
-    }while ( (puntosComputadora < puntosMinimos) && (puntosMinimos <= 21) );
+    } while ( (puntosComputadora < puntosMinimos) && (puntosMinimos <= 21) );
+
+    //timeout para que aparezca alertas, nada bonito
+
+    setTimeout(() => {
+        if ((puntosComputadora === puntosMinimos)) {
+            alert('Empate');
+        } else if (puntosComputadora > 21) {
+            alert('Jugador gana');
+        } else if ( puntosMinimos > 21) {
+            alert('Computadora gana');
+        } else {
+            alert('Computadora gana');
+        }
+    }, 35);
+
 }
 
 
@@ -159,3 +174,22 @@ btnFold.addEventListener('click', () => {
     btnFold.disabled = true;
     turnoComputadora(puntosJugador);
 });
+
+btnJugar.addEventListener('click', ()=> {
+    console.clear();
+    deck = [];
+    deck = crearDeck();
+
+    puntosJugador = 0;
+    puntosComputadora = 0;
+
+    puntosHTML[0].innerText = '0';
+    puntosHTML[1].innerText = '0';
+
+    btnPedir.disabled = false;
+    btnFold.disabled = false;
+
+    jugadorCartasHTML.innerHTML='';
+    computadoraCartasHTML.innerHTML='';
+
+})
