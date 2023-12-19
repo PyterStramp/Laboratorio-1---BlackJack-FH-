@@ -11,6 +11,25 @@ let deck = [];
 const tipos = ['C', 'D', 'H', 'S']; //for of
 const especiales = ['A', 'J', 'Q', 'K']; //letras
 
+//puntaje
+let puntosJugador = 0,
+    puntosComputadora = 0;
+
+//referencias del HTML
+
+const btnPedir = document.querySelector('#btnPedir');
+const btnFold = document.querySelector('#btnFold');
+const btnJugar = document.querySelector('#btnJugar');
+
+//jugador
+const jugadorCartasHTML = document.querySelector('#jugador-cartas');
+
+//maquina
+const computadoraCartasHTML = document.querySelector('#computadora-cartas');
+
+//puntaje
+const puntosHTML = document.querySelectorAll('small');
+
 const crearDeck = () => {
     //Empezar con los números, del 2 al 10
     for ( let i = 2; i <=10; i++ ) {
@@ -29,11 +48,10 @@ const crearDeck = () => {
     // si la aleatorizada sirve jaja, entonces quito el shuffle
     // a pesar de servir, es mejor revolver y aleatorizar después
     deck = _.shuffle(deck);//para aleatorizar el arreglo
-    //console.log(deck);
+    console.log(deck);
     return deck;
 }
 
-crearDeck();
 
 //Tomar una carta
 
@@ -54,10 +72,8 @@ const pedirCarta = () => {
     if (carta.length === 0) { //si el número va fuera de rango
         throw 'Algo falló, recargue la página';
     }
-    //console.log(pos);
-    console.log(carta, deck);
+    //console.log(deck);
     //console.log(deck.indexOf(carta)); // no lo encuentra porque lo elimina
-    console.log(carta[0]);
     return carta[0];
 }
 
@@ -76,5 +92,70 @@ const valorCarta = (carta) => {
                             : valor * 1;
 }
 
-const valor = valorCarta(pedirCarta());
-console.log({valor});
+//turno de la computadora
+//se activa cuando el jugador pierda o le de click en "detener"
+//la computadora debe igualar el puntaje del jugador
+
+const turnoComputadora = ( puntosMinimos ) => {
+
+
+    do { //al menos una vez
+        const carta = pedirCarta();
+        puntosComputadora += valorCarta(carta);
+        puntosHTML[1].innerText = puntosComputadora;
+
+        const imgCarta = document.createElement('img');
+        imgCarta.src= `assets/cartas/${ carta }.png`;
+        imgCarta.classList.add('carta');
+        computadoraCartasHTML.append(imgCarta);
+
+        //asegurar
+        if (puntosMinimos > 21) {
+            break;
+        }
+
+    }while ( (puntosComputadora < puntosMinimos) && (puntosMinimos <= 21) );
+}
+
+
+crearDeck();
+
+// Eventos OnClick
+
+// Pedir carta
+//Callback -> función que se manda como argumento
+btnPedir.addEventListener('click', () => {
+   const carta = pedirCarta();
+   //puntos acumulados
+    puntosJugador += valorCarta(carta);
+    puntosHTML[0].innerText = puntosJugador; //visual, 0 del jugador
+    //crear una carta en HTML cada vez que se active el action listener
+    //imagen de forma dinámica
+    //crea elemento en memoria
+    const imgCarta = document.createElement('img');
+    imgCarta.src= `assets/cartas/${ carta }.png`; //Poner la imagen
+    //colocar la clase carta
+    imgCarta.classList.add('carta');
+    jugadorCartasHTML.append(imgCarta);
+
+    //controlar el puntaje
+    if (puntosJugador > 21) {
+        console.warn('Perdiste');
+        //bloquear el botòn
+        btnPedir.disabled = true;
+        btnFold.disabled = true;
+        turnoComputadora(puntosJugador);
+    } else if (puntosJugador === 21) {
+        console.warn('21');
+        btnPedir.disabled = true;
+        btnFold.disabled = true;
+        turnoComputadora(puntosJugador);
+    }
+});
+
+btnFold.addEventListener('click', () => {
+    console.log('Foldeaste');
+    btnPedir.disabled = true;
+    btnFold.disabled = true;
+    turnoComputadora(puntosJugador);
+});
